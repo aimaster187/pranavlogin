@@ -1,0 +1,174 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isRootOwnerEmail() {
+      return request.auth.token.email_verified == true
+        && request.auth.token.email == 'ai.master.bot.official@gmail.com';
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId && isRootOwnerEmail();
+    }
+
+    function validTimestamp(field) {
+      return request.resource.data[field] is timestamp
+        && request.resource.data[field] <= request.time;
+    }
+
+    function unchanged(field) {
+      return request.resource.data[field] == resource.data[field];
+    }
+
+    // Default deny everything outside explicit owner subcollections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    match /users/{userId} {
+      allow get, list, create, update, delete: if false;
+
+      match /workspace/{workspaceId} {
+        allow get, list: if isOwner(userId);
+        allow create, update: if isOwner(userId)
+          && request.resource.data.ownerUid == userId
+          && request.resource.data.ownerEmail is string
+          && request.resource.data.masterMaintenance is bool
+          && request.resource.data.emergencyLockdown is bool
+          && request.resource.data.domainHost is string
+          && request.resource.data.enabledModules is map
+          && validTimestamp('updatedAt');
+        allow delete: if false;
+      }
+
+      match /apps/{appId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId)
+          && request.resource.data.ownerUid == userId
+          && request.resource.data.appCode is string
+          && request.resource.data.packageName is string
+          && request.resource.data.displayName is string
+          && request.resource.data.masterEnabled is bool
+          && request.resource.data.forceUpdateEnabled is bool
+          && (!request.resource.data.forceUpdateEnabled || request.resource.data.laterEnabled == false)
+          && request.resource.data.rolloutPercent is int
+          && request.resource.data.rolloutPercent >= 0
+          && request.resource.data.rolloutPercent <= 100
+          && validTimestamp('createdAt')
+          && validTimestamp('updatedAt');
+        allow update: if isOwner(userId)
+          && unchanged('ownerUid')
+          && unchanged('createdAt')
+          && (!request.resource.data.forceUpdateEnabled || request.resource.data.laterEnabled == false)
+          && request.resource.data.rolloutPercent is int
+          && request.resource.data.rolloutPercent >= 0
+          && request.resource.data.rolloutPercent <= 100
+          && validTimestamp('updatedAt');
+        allow delete: if isOwner(userId);
+      }
+
+      match /dialogs/{dialogId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId)
+          && request.resource.data.ownerUid == userId
+          && request.resource.data.appId is string
+          && request.resource.data.dialogType is string
+          && request.resource.data.title is string
+          && validTimestamp('createdAt')
+          && validTimestamp('updatedAt');
+        allow update: if isOwner(userId)
+          && unchanged('ownerUid')
+          && unchanged('createdAt')
+          && validTimestamp('updatedAt');
+        allow delete: if isOwner(userId);
+      }
+
+      match /devices/{deviceId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId)
+          && request.resource.data.ownerUid == userId
+          && request.resource.data.installUuid is string
+          && request.resource.data.keystoreKeyHash is string
+          && request.resource.data.approvalStatus in ['PENDING', 'APPROVED', 'BLOCKED']
+          && validTimestamp('createdAt')
+          && validTimestamp('updatedAt');
+        allow update: if isOwner(userId)
+          && unchanged('ownerUid')
+          && unchanged('createdAt')
+          && request.resource.data.approvalStatus in ['PENDING', 'APPROVED', 'BLOCKED']
+          && validTimestamp('updatedAt');
+        allow delete: if isOwner(userId);
+      }
+
+      match /licenses/{licenseId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId)
+          && request.resource.data.ownerUid == userId
+          && request.resource.data.licenseKey is string
+          && request.resource.data.planTier in ['STANDARD', 'VIP_PRO', 'VIP_ELITE']
+          && request.resource.data.status in ['UNUSED', 'ACTIVE', 'SUSPENDED', 'REVOKED', 'EXPIRED']
+          && request.resource.data.paymentVerified is bool
+          && validTimestamp('createdAt')
+          && validTimestamp('updatedAt');
+        allow update: if isOwner(userId)
+          && unchanged('ownerUid')
+          && unchanged('createdAt')
+          && request.resource.data.status in ['UNUSED', 'ACTIVE', 'SUSPENDED', 'REVOKED', 'EXPIRED']
+          && validTimestamp('updatedAt');
+        allow delete: if isOwner(userId);
+      }
+
+      match /bots/{botId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId)
+          && request.resource.data.ownerUid == userId
+          && request.resource.data.botUsername is string
+          && !('botToken' in request.resource.data)
+          && request.resource.data.tokenSecretRef is string
+          && request.resource.data.tokenSecretRef.matches('^vault://.*')
+          && request.resource.data.roleType in ['USER_BOT', 'OWNER_BOT']
+          && validTimestamp('createdAt')
+          && validTimestamp('updatedAt');
+        allow update: if isOwner(userId)
+          && unchanged('ownerUid')
+          && unchanged('createdAt')
+          && !('botToken' in request.resource.data)
+          && validTimestamp('updatedAt');
+        allow delete: if isOwner(userId);
+      }
+
+      match /dexReleases/{releaseId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId)
+          && request.resource.data.ownerUid == userId
+          && request.resource.data.versionName is string
+          && request.resource.data.sha256Checksum is string
+          && validTimestamp('createdAt')
+          && validTimestamp('updatedAt');
+        allow update: if isOwner(userId)
+          && unchanged('ownerUid')
+          && unchanged('createdAt')
+          && validTimestamp('updatedAt');
+        allow delete: if isOwner(userId);
+      }
+
+      match /events/{eventId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId)
+          && request.resource.data.ownerUid == userId
+          && request.resource.data.category is string
+          && request.resource.data.title is string
+          && validTimestamp('createdAt')
+          && validTimestamp('updatedAt');
+        allow update: if isOwner(userId)
+          && unchanged('ownerUid')
+          && unchanged('createdAt')
+          && validTimestamp('updatedAt');
+        allow delete: if isOwner(userId);
+      }
+    }
+  }
+}

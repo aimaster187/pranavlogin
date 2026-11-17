@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- PRANAV Target APK AndroidManifest.xml Integration Snippet -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 1. Required normal permissions for PRANAV API handshake -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!--
+      2. If target app has NO custom android:name in <application>, you may attach:
+         android:name="com.pranav.integration.application.PranavApplicationHook$DefaultHostApplication"
+         OR keep existing android:name and insert the Smali hook into that Application or launch Activity.
+    -->
+    <application
+        android:usesCleartextTraffic="false">
+
+        <!-- Optional metadata declarations inspected by PRANAV Diagnostics -->
+        <meta-data
+            android:name="pranav.app.code"
+            android:value="my_app_code" />
+        <meta-data
+            android:name="pranav.api.endpoint"
+            android:value="https://api.pranavsmm.shop" />
+    </application>
+</manifest>

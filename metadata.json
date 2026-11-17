@@ -1,0 +1,6 @@
+{
+  "name": "PRANAV Admin",
+  "description": "PRANAV ecosystem owner console: multi-app manager, DEX & hook integration assistant, update & universal dialog engine, device/license/VIP control, Telegram multi-bot manager, and Node.js backend.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

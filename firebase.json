@@ -1,0 +1,12 @@
+{
+  "firestore": {
+    "database": "ai-studio-android-pranavad-0a07513d-88c9-492d-8858-e86bb8da7452",
+    "rules": "firestore.rules"
+  },
+  "emulators": {
+    "firestore": {
+      "host": "127.0.0.1",
+      "port": 8085
+    }
+  }
+}

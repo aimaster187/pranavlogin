@@ -1,0 +1,159 @@
+{
+  "entities": {
+    "OwnerWorkspace": {
+      "description": "Root owner workspace state, domain host, global maintenance & emergency lockdown switches, and 52-module toggle map.",
+      "path": "/users/{userId}/workspace/{workspaceId}",
+      "fields": {
+        "ownerUid": "string",
+        "ownerEmail": "string",
+        "masterMaintenance": "boolean",
+        "maintenanceMessage": "string",
+        "emergencyLockdown": "boolean",
+        "domainHost": "string",
+        "environment": "string",
+        "enabledModules": "map",
+        "updatedAt": "timestamp"
+      }
+    },
+    "ManagedApp": {
+      "description": "Isolated managed APK registration and Original Update Manager settings.",
+      "path": "/users/{userId}/apps/{appId}",
+      "fields": {
+        "ownerUid": "string",
+        "appCode": "string",
+        "packageName": "string",
+        "displayName": "string",
+        "versionName": "string",
+        "versionCode": "number",
+        "lifecycleStatus": "string",
+        "masterEnabled": "boolean",
+        "popupEnabled": "boolean",
+        "forceUpdateEnabled": "boolean",
+        "laterEnabled": "boolean",
+        "latestVersion": "string",
+        "minSupportedVersion": "string",
+        "apkDownloadUrl": "string",
+        "updateTitle": "string",
+        "updateDescription": "string",
+        "releaseNotes": "string",
+        "whatsNew": "string",
+        "channelLink": "string",
+        "button1Text": "string",
+        "button2Text": "string",
+        "rolloutPercent": "number",
+        "featureFlagsSummary": "string",
+        "dexReleaseVersion": "string",
+        "createdAt": "timestamp",
+        "updatedAt": "timestamp"
+      }
+    },
+    "UniversalDialog": {
+      "description": "Dynamic dialog definitions for update, VIP, license, device, maintenance, and announcement triggers.",
+      "path": "/users/{userId}/dialogs/{dialogId}",
+      "fields": {
+        "ownerUid": "string",
+        "appId": "string",
+        "dialogType": "string",
+        "title": "string",
+        "description": "string",
+        "primaryButtonText": "string",
+        "primaryActionUrl": "string",
+        "secondaryButtonText": "string",
+        "animationStyle": "string",
+        "soundName": "string",
+        "dismissible": "boolean",
+        "laterAllowed": "boolean",
+        "enabled": "boolean",
+        "priority": "number",
+        "createdAt": "timestamp",
+        "updatedAt": "timestamp"
+      }
+    },
+    "ManagedDevice": {
+      "description": "Device identities backed by install UUID + Android Keystore EC P-256 fingerprint (no IMEI/MAC).",
+      "path": "/users/{userId}/devices/{deviceId}",
+      "fields": {
+        "ownerUid": "string",
+        "appId": "string",
+        "deviceLabel": "string",
+        "installUuid": "string",
+        "keystoreKeyHash": "string",
+        "approvalStatus": "string",
+        "androidApi": "number",
+        "riskScore": "number",
+        "transferCount": "number",
+        "createdAt": "timestamp",
+        "updatedAt": "timestamp"
+      }
+    },
+    "LicenseRecord": {
+      "description": "Single-device licenses and VIP tier records with verified-payment enforcement and transfer cooldowns.",
+      "path": "/users/{userId}/licenses/{licenseId}",
+      "fields": {
+        "ownerUid": "string",
+        "appId": "string",
+        "licenseKey": "string",
+        "planTier": "string",
+        "status": "string",
+        "durationDays": "number",
+        "graceDays": "number",
+        "paymentVerified": "boolean",
+        "transferCooldownHours": "number",
+        "boundDeviceId": "string",
+        "expiresAtEpochMs": "number",
+        "createdAt": "timestamp",
+        "updatedAt": "timestamp"
+      }
+    },
+    "TelegramBotConfig": {
+      "description": "Non-secret metadata for dynamic Telegram bots. Raw tokens live only in backend AES-256-GCM vault.",
+      "path": "/users/{userId}/bots/{botId}",
+      "fields": {
+        "ownerUid": "string",
+        "botUsername": "string",
+        "botDisplayName": "string",
+        "roleType": "string",
+        "mode": "string",
+        "commandsCount": "number",
+        "tokenSecretRef": "string",
+        "healthStatus": "string",
+        "enabled": "boolean",
+        "rateLimitPerMin": "number",
+        "createdAt": "timestamp",
+        "updatedAt": "timestamp"
+      }
+    },
+    "DexRelease": {
+      "description": "PRANAV DEX SDK release catalog with SHA-256 checksums and recommended hook strategies.",
+      "path": "/users/{userId}/dexReleases/{releaseId}",
+      "fields": {
+        "ownerUid": "string",
+        "versionName": "string",
+        "versionCode": "number",
+        "minSdk": "number",
+        "targetSdk": "number",
+        "sha256Checksum": "string",
+        "recommendedHook": "string",
+        "releaseNotes": "string",
+        "active": "boolean",
+        "createdAt": "timestamp",
+        "updatedAt": "timestamp"
+      }
+    },
+    "AdminEvent": {
+      "description": "Audit logs, announcements, notifications, and support tickets.",
+      "path": "/users/{userId}/events/{eventId}",
+      "fields": {
+        "ownerUid": "string",
+        "appId": "string",
+        "category": "string",
+        "title": "string",
+        "message": "string",
+        "severity": "string",
+        "status": "string",
+        "createdAt": "timestamp",
+        "updatedAt": "timestamp"
+      }
+    }
+  }
+}

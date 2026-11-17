@@ -1,0 +1,21 @@
+{
+  "latestVersion": "1.4.0",
+  "latestVersionCode": 140,
+  "releases": [
+    {
+      "versionName": "1.4.0",
+      "versionCode": 140,
+      "minSdk": 24,
+      "targetSdk": 36,
+      "artifact": "build/pranav-sdk-1.4.0.dex",
+      "sha256Checksum": "18e0a788743ef6f18a889cfc41cbda7d25a4ea5a5b0a28745876fa3e967d6786",
+      "entryClass": "com.pranav.sdk.PranavSdk",
+      "recommendedHooks": [
+        "APPLICATION_ON_CREATE",
+        "ACTIVITY_ON_CREATE",
+        "ATTACH_BASE_CONTEXT"
+      ],
+      "releaseNotes": "Universal PRANAV DEX v1.4.0 with Keystore EC P-256 challenge-response, duplicate-init guard, and Universal Dialog Engine."
+    }
+  ]
+}

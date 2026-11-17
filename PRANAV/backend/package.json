@@ -1,0 +1,14 @@
+{
+  "name": "pranav-backend",
+  "version": "1.4.0",
+  "description": "PRANAV multi-app control, DEX handshake, license/VIP engine, and Telegram multi-bot manager backend.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

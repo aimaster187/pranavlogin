@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">PRANAV Admin</string>
+    <string name="cd_auth_crest">PRANAV owner security crest</string>
+    <string name="cd_hero_core">PRANAV holographic system core</string>
+    <string name="cd_bot_banner">PRANAV Telegram multi-bot communication hub</string>
+    <string name="sign_in_google">Sign in with Google</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="offline_banner">Offline mode active: showing cached state. Writes will sync on reconnect.</string>
+    <string name="nav_dashboard">Core</string>
+    <string name="nav_apps">Apps</string>
+    <string name="nav_integration">DEX &amp; Hook</string>
+    <string name="nav_security">Licenses</string>
+    <string name="nav_bots">Bots &amp; Ops</string>
+</resources>
