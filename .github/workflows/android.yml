@@ -26,7 +26,9 @@ jobs:
 
 
       - name: Install Android SDK
-        run: sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+        run: |
+          export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/cmdline-tools/16.0/bin:$ANDROID_HOME/platform-tools:$PATH"
+          sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0"
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
