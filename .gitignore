@@ -15,7 +15,6 @@
 .cxx
 local.properties
 .env
-debug.keystore
 *-debug.log
 PRANAV/backend/data/
 PRANAV/dex/build/
